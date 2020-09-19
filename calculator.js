@@ -17,7 +17,7 @@ numbers.forEach((number) => {
         if (operationCount == 1 && topDisplay === ''){
             clearAll();
         }
-        if ((number.innerHTML === '.' && bottomDisplay.includes('.')) || bottomDisplay.length > 15){
+        if ((number.innerHTML === '.' && bottomDisplay.includes('.')) || bottomDisplay.length > 10){
             return;
         }
         bottomDisplay += number.innerHTML;
@@ -37,20 +37,25 @@ operands.forEach((operand) => {
             savedDisplay = '';
             operationCount = 0;
         }
-        if ((topDisplay === '' && bottomDisplay === '') || (topDisplay !== '' && bottomDisplay === '0')){
+        if ((bottomDisplay === '') || (topDisplay !== '' && bottomDisplay === '0')){
+            if (topDisplay !== ''){
+                currentOperand = operand.innerHTML;
+                updateDisplay();
+                return;
+            }
             clearAll();
             return;
         }
         if (topDisplay === ''){
             topDisplay = bottomDisplay;
             bottomDisplay = '';
-            currentOperand += operand.innerHTML;
+            currentOperand = operand.innerHTML;
             updateDisplay();
         } else {
             operate();
             topDisplay = bottomDisplay;
             bottomDisplay = '';
-            currentOperand += operand.innerHTML;
+            currentOperand = operand.innerHTML;
             updateDisplay();
         }
     });
@@ -80,7 +85,7 @@ function clearAll() {
 }
 
 function operate() {
-    if (topDisplay === '' && savedDisplay === '' && savedOperand === ''){
+    if (topDisplay === '' && savedDisplay === '' && savedOperand === '' || bottomDisplay === '' || bottomDisplay === 'Infinity'){
         return;
     }
     if (operationCount == 0){
